@@ -1,0 +1,75 @@
+version: "3.7"
+services:
+  app:
+    build:
+      args:
+        user: daniyalnasir
+        uid: 1001
+      context: ./
+      dockerfile: Dockerfile
+    image: laravel-base
+    container_name: laravel-base-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - laravel-base
+
+  db:
+    image: mysql:5.7
+    container_name: laravel-base-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      #      MYSQL_USER: ${DB_USERNAME}
+      #      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata1:/var/lib/mysql
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+    networks:
+      laravel-base:
+        ipv4_address: 172.25.2.1
+  nginx:
+    image: nginx:alpine
+    container_name: laravel-base-nginx
+    restart: unless-stopped
+    ports:
+      - 8001:80
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d/
+    networks:
+      - laravel-base
+
+  node:
+#    platform: linux/arm64 #this line is optional if you are using Mac Silicon chip (M1/M2/M3)
+    build:
+      context: .
+      dockerfile: docker/node/Dockerfile
+    image: laravel-base-node
+    container_name: laravel-base-node
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+#      - /var/www/node_modules
+    networks:
+      - laravel-base
+
+networks:
+  laravel-base:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.25.2.0/16"
+
+volumes:
+  dbdata1:

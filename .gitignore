@@ -1,0 +1,7 @@
+/vendor/
+/storage/
+/.idea
+.env
+
+/node_modules
+/public/assets/admin/
