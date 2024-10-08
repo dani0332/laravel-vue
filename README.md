@@ -84,3 +84,10 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 To run application
 sudo docker exec laravel-base-node npm run dev
 
+sudo docker exec laravel-base-node npm install -D tailwindcss postcss autoprefixer
+sudo docker exec laravel-base-node npx tailwindcss init
+
+sudo docker exec laravel-base-node npm i -S vue-router@next
+
+
+https://youtu.be/jffKw_NMfnw?feature=shared&t=3671

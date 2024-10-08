@@ -34,6 +34,7 @@ services:
     networks:
       laravel-base:
         ipv4_address: 172.25.2.1
+
   nginx:
     image: nginx:alpine
     container_name: laravel-base-nginx

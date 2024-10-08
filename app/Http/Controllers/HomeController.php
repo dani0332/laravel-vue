@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContentManagement;
+use Illuminate\Http\Request;
 
 class HomeController
 {
@@ -12,6 +13,11 @@ class HomeController
             return redirect('/');
 
         return view('content', $data);
+    }
+
+    public function index(Request $request){
+
+        return view("vue.master");
     }
 
 }

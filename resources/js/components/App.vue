@@ -1,14 +1,15 @@
-<template>
-    <div>
-        <h1>Hello, Vue 3 with Laravel !!</h1>
-    </div>
-</template>
-
-<script>
-export default {
-    name: 'App'
-};
+<script setup>
+import {ref,computed} from "vue";
+import store from "../store";
+const test = computed(()=> store.state.test);
+    // export default {
+    //     name: 'App'
+    // };
 </script>
+
+<template>
+    <router-view></router-view>
+</template>
 
 <style>
 /* Add component styles here */
