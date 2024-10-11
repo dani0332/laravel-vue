@@ -10,7 +10,11 @@
                         </div>
                         <div class="hidden md:block">
                             <div class="ml-10 flex items-baseline space-x-4">
-                                <a v-for="item in navigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'rounded-md px-3 py-2 text-sm font-medium']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</a>
+                                <router-link v-for="item in navigation" :key="item.name" :to="item.href"
+                                   :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'rounded-md px-3 py-2 text-sm font-medium']"
+                                   :aria-current="item.current ? 'page' : undefined"
+                                             @click="navigate(item)"
+                                >{{ item.name }}</router-link>
                             </div>
                         </div>
                     </div>
@@ -81,34 +85,43 @@
 
         <header class="bg-white shadow">
             <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                <h1 class="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+                <h1 class="text-3xl font-bold tracking-tight text-gray-900">{{title}} </h1>
+
             </div>
         </header>
         <main>
             <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                 <!-- Your content -->
+                <router-view></router-view>
+                <slot></slot>
             </div>
         </main>
     </div>
 </template>
 
 <script setup>
+import {computed,ref} from "vue";
+import store from "../../store";
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 
-const user = {
-    name: 'Tom Cook',
-    email: 'tom@example.com',
-    imageUrl:
-        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-}
-const navigation = [
+    // const user = ref({
+    //     name: 'Tom Cook',
+    //     email: 'tom@example.com',
+    //     imageUrl:
+    //         'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    // })
+
+
+const user = computed(() => store.state.user.data);
+
+const navigation = ref([
     { name: 'Dashboard', href: 'dashboard', current: true },
     { name: 'Team', href: '#', current: false },
-    { name: 'Projects', href: '#', current: false },
+    { name: 'Products', href: 'products', current: false },
     { name: 'Calendar', href: '#', current: false },
     { name: 'Reports', href: '#', current: false },
-]
+])
 const userNavigation = [
     { name: 'Your Profile', href: '#' },
     { name: 'Settings', href: '#' },
@@ -118,10 +131,16 @@ const {open} = defineProps({
     open: Boolean
 })
 
+const title = computed(() => store.state.pageTitle); // Reactive title from store
 
-// export default {
-//     name: "AdminLayout"
-// }
+const navigate = (nav) =>{
+    console.log('nav',nav);
+
+    navigation.value.forEach(item => {
+        item.current = item.name === nav.name;
+    });
+}
+
 </script>
 
 <style scoped>

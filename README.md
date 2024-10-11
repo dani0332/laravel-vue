@@ -81,6 +81,8 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 ##############################################################################################################################
 ##############################################################################################################################
 
+sudo docker exec laravel-base-app php artisan
+
 To run application
 sudo docker exec laravel-base-node npm run dev
 
@@ -89,5 +91,8 @@ sudo docker exec laravel-base-node npx tailwindcss init
 
 sudo docker exec laravel-base-node npm i -S vue-router@next
 
+sudo docker exec laravel-base-node npm install flowbite
 
 https://youtu.be/jffKw_NMfnw?feature=shared&t=3671
+
+https://chatgpt.com/c/abce2894-16e7-48f2-bac5-b5e8472bf4fc

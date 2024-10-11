@@ -6,7 +6,7 @@ export default defineConfig({
     server: {
         hmr: {
             host: 'localhost', // Can use 'localhost' or '0.0.0.0'
-            // port: 3001
+            port: 3000
         },
         port: 3000,
         host: '0.0.0.0', // Ensure Docker can bind to the port

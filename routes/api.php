@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\FaqController;
 use App\Http\Controllers\Api\GeneralController;
+use App\Http\Controllers\Admin\Auth\LoginController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,6 +16,11 @@ use App\Http\Controllers\Api\GeneralController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::middleware(['guest:cms_user'])->prefix('admin')->group(function(){
+    Route::post('login',[LoginController::class,'login']);
+    Route::post('saveProduct',[LoginController::class,'saveProduct']);
+});
 
 Route::middleware(['api_authorization'])->group(function(){
 
